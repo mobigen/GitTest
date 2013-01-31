@@ -2,6 +2,11 @@ Git 사용법이 궁금하신분들은 다음 주소를 참고하세요.
 ---------------------------------------------------
   * http://rogerdudler.github.com/git-guide/index.ko.html
   * http://dogfeet.github.com/articles/2012/progit.html
+  * http://dogfeet.github.com/articles/2011/a-successful-git-branching-model.html
+  * http://marklodato.github.com/visual-git-guide/index-en.html
+  * http://www.slideshare.net/chacon/git-101-presentation
+  * http://www.slideshare.net/JamesEdwardGrayII/git-and-github-3675432
+
 
 Markdown 사용법이 궁금하신분들은 다음 주소를 참고하세요.
 --------------------------------------------------------
