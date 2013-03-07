@@ -7,8 +7,6 @@ def main2():
 def main3():
     print "this is other main" // modify choiycdev
 
-def main4():
-    print "ISSUES TEST"
 
 if __name__ == '__main__':
     main()
