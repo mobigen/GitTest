@@ -1,3 +1,4 @@
+console.log("hello node.js");
 var buf = new Buffer(256);
 var len =  buf.write('abcde',4,'utf8');
 console.log("길이 : "+len);
