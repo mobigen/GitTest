@@ -12,7 +12,8 @@ def main4():
 
 def main():
     print "hello, world"
-
+def main5():
+    print "hello, world"
 def main2():
     print "this is main 2"
     
