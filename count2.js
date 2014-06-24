@@ -8,5 +8,3 @@ console.log('start_time :' + start);
 console.log('end_time :' + end);
 console.log('time :' + (end - start));
 
-
-
