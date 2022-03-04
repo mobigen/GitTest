@@ -1,2 +1,12 @@
-branch: master
-namespace: test
+service_name: jaguar
+
+k8s:
+  namespace: platform
+  repo: https://repo.iris.tools
+
+git:
+  branch: master
+  code: python
+
+path:
+  k8s: jenkins/k8s.yaml
