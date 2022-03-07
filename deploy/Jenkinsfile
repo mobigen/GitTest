@@ -46,6 +46,6 @@ node {
     
     stage('Kubernetes deploy') {
         kubernetesDeploy configs: "${env.DEPLOY_K8S}",
-            kubeconfigId: 'k8s-192.168.102.114'        
+            kubeconfigId: 'k8s-192.168.102.11'        
     }
 }
