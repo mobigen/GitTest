@@ -5,7 +5,7 @@ deploy:
     dockerfile: Dockerfile
     path: ./
   k8s: jenkins/k8s-deploy.yaml
-  namespace: platform
+  namespace: test
 
 git:
   url: git@github.com:mobigen/GitTest
