@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  namespace: ${DEPLOY_NAMESPACE}
 spec:
   selector:
     matchLabels:
@@ -14,6 +15,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx
+        image: ${CONTAINER_IMAGE}
         ports:
         - containerPort: 80
