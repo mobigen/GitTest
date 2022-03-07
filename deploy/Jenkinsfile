@@ -33,7 +33,7 @@ node {
         echo "tag name: $tag"
         
         docker_image = docker.build(
-            "${imageRepo}/${imageRepoProject}",
+            "${imageRepo}/${imageRepoProject}/${env.SERVICE_NAME}",
             "-f ${config.deploy.build.dockerfile} ${config.deploy.build.path}"
         )
         
