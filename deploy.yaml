@@ -1,11 +1,11 @@
 service_name: test
 
 deploy:
-  k8s: deploy/k8s-deploy.yaml
-  namespace: platform
   build:
     dockerfile: Dockerfile
     path: ./
+  k8s: jenkins/k8s-deploy.yaml
+  namespace: platform
 
 git:
   url: git@github.com:mobigen/GitTest
