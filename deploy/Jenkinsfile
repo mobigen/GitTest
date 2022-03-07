@@ -7,7 +7,7 @@ node {
     }
     
     stage('Init') {
-        config = readYaml file: 'jenkins/deploy.yaml'
+        config = readYaml file: 'deploy.yaml'
         env.SERVICE_NAME = "${config.service_name}"
         
         env.GIT_URL = "${config.git.url}"
