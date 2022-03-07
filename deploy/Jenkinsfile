@@ -1,6 +1,10 @@
 node {
     def imageRepo = 'repo.iris.tools'
     def imageRepoProject = 'cicd'
+
+    stage('Checkout branch') {
+        checkout scm
+    }
     
     stage('Init') {
         config = readYaml file: 'jenkins/deploy.yaml'
