@@ -1,0 +1,12 @@
+service_name: jaguar
+
+deploy:
+  k8s: jenkins/k8s.yaml
+  namespace: platform
+  build:
+    dockerfile: Dockerfile
+    path: ./
+
+git:
+  url: git@github.com:mobigen/GitTest
+  deploy_branch: master

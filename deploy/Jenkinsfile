@@ -1,0 +1,47 @@
+node {
+    def imageRepo = 'repo.iris.tools'
+    def imageRepoProject = 'cicd'
+    
+    stage('Init') {
+        config = readYaml file: 'deploy.yaml'
+        env.SERVICE_NAME = "${config.service_name}"
+        
+        env.GIT_URL = "${config.git.url}"
+        env.GIT_DEPLOY_BRANCH = "${config.git.deploy_branch}"
+        
+        env.DEPLOY_K8S = "${config.deploy.k8s}"
+        env.DEPLOY_NAMESPACE = "${config.deploy.namespace}"
+    }
+    
+    stage('Build Image') {
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: "*/${env.GIT_DEPLOY_BRANCH}"]],
+            extensions: [],
+            userRemoteConfigs: [[credentialsId: '114', url: "${env.GIT_URL}"]]
+        ])
+        
+        def tag = sh (
+            script: "echo `date '+%Y%m%d'`-`git rev-parse --short=7 HEAD`",
+            returnStdout: true
+        ).trim()
+        
+        echo "tag name: $tag"
+        
+        docker_image = docker.build(
+            "${imageRepo}/${imageRepoProject}",
+            "-f ${config.deploy.build.dockerfile} ${config.deploy.build.path}"
+        )
+        
+        docker.withRegistry("${imageRepo}", 'repo.iris.tools') {
+            docker_image.push("${tag}")
+        }
+        
+        env.CONTAINER_IMAGE = "${imageRepo}/${imageRepoProject}/${env.SERVICE_NAME}:${tag}"
+    }
+    
+    stage('Kubernetes deploy') {
+        kubernetesDeploy configs: "${env.DEPLOY_K8S}",
+            kubeconfigId: 'k8s-192.168.102.114'        
+    }
+}
