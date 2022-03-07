@@ -3,7 +3,7 @@ node {
     def imageRepoProject = 'cicd'
     
     stage('Init') {
-        config = readYaml file: 'deploy.yaml'
+        config = readYaml file: 'jenkins/deploy.yaml'
         env.SERVICE_NAME = "${config.service_name}"
         
         env.GIT_URL = "${config.git.url}"
