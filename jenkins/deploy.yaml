@@ -1,0 +1,12 @@
+service_name: test
+
+deploy:
+  k8s: deploy/k8s-deploy.yaml
+  namespace: platform
+  build:
+    dockerfile: Dockerfile
+    path: ./
+
+git:
+  url: git@github.com:mobigen/GitTest
+  deploy_branch: master
