@@ -37,7 +37,7 @@ node {
             "-f ${config.deploy.build.dockerfile} ${config.deploy.build.path}"
         )
         
-        docker.withRegistry("${imageRepo}", 'repo.iris.tools') {
+        docker.withRegistry("https://${imageRepo}", 'repo.iris.tools') {
             docker_image.push("${tag}")
         }
         
