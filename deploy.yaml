@@ -1,7 +1,7 @@
-service_name: jaguar
+service_name: test
 
 deploy:
-  k8s: jenkins/k8s.yaml
+  k8s: deploy/k8s-deploy.yaml
   namespace: platform
   build:
     dockerfile: Dockerfile
