@@ -45,6 +45,9 @@ node {
     }
     
     stage('Kubernetes deploy') {
+        echo "deploy yaml     : $env.DEPLOY_K8S"
+        echo "deploy namespace: $env.DEPLOY_NAMESPACE"
+        echo "container image : $env.CONTAINER_IMAGE"
         kubernetesDeploy configs: "${env.DEPLOY_K8S}",
             kubeconfigId: 'k8s-192.168.102.114'        
     }
