@@ -2,9 +2,9 @@ node {
     def imageRepo = 'repo.iris.tools'
     def imageRepoProject = 'cicd'
 
-    stage('Checkout branch') {
-        checkout scm
-    }
+//     stage('Checkout branch') {
+//         checkout scm
+//     }
     
     stage('Init') {
         config = readYaml file: 'deploy.yaml'
@@ -18,12 +18,12 @@ node {
     }
     
     stage('Build Image') {
-//         checkout([
-//             $class: 'GitSCM',
-//             branches: [[name: "*/${env.GIT_DEPLOY_BRANCH}"]],
-//             extensions: [],
-//             userRemoteConfigs: [[credentialsId: '114', url: "${env.GIT_URL}"]]
-//         ])
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: "*/${env.GIT_DEPLOY_BRANCH}"]],
+            extensions: [],
+            userRemoteConfigs: [[credentialsId: '114', url: "${env.GIT_URL}"]]
+        ])
         
         def tag = sh (
             script: "echo `date '+%Y%m%d'`-`git rev-parse --short=7 HEAD`",
