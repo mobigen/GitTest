@@ -58,7 +58,7 @@ node {
 //         }
 //     }
 
-    POST {
+    post {
         success {
             echo 'success............'
             httpRequest contentType: 'APPLICATION_JSON_UTF8',
