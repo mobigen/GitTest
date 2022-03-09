@@ -1,5 +1,5 @@
 node {
-    try {
+//     try {
         stage('Init') {
             // 설정 branch
             checkout scm
@@ -48,15 +48,15 @@ node {
             kubernetesDeploy configs: "${deployK8SYaml}",
                 kubeconfigId: 'k8s'
         }
-    } catch (e) {
-        currentBuild.result = 'FAILURE'
-    } finally {
-        stage('Clean workspace & delete Image') {
-            cleanWs deleteDirs: true,
-                notFailBuild: true
-            sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
-        }
-    }
+//     } catch (e) {
+//         currentBuild.result = 'FAILURE'
+//     } finally {
+//         stage('Clean workspace & delete Image') {
+//             cleanWs deleteDirs: true,
+//                 notFailBuild: true
+//             sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
+//         }
+//     }
 
     POST {
         success {
