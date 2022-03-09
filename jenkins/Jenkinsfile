@@ -47,10 +47,10 @@ node {
         currentBuild.result = 'FAILURE'
     } finally {
         stage('Clean workspace & delete Image') {
-            cleanWs
-                deleteDirs: true,
-                notFailBuild: true
-            sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
+//             cleanWs
+//                 deleteDirs: true,
+//                 notFailBuild: true
+//             sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
         }
     }
 
