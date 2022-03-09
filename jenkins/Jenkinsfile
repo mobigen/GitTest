@@ -52,10 +52,9 @@ node {
         currentBuild.result = 'FAILURE'
     } finally {
         stage('Clean workspace & delete Image') {
-//             cleanWs
-//                 deleteDirs: true,
-//                 notFailBuild: true
-//             sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
+            cleanWs deleteDirs: true,
+                notFailBuild: true
+            sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
         }
     }
 
@@ -64,11 +63,11 @@ node {
             echo 'success............'
             httpRequest contentType: 'APPLICATION_JSON_UTF8',
                 httpMode: 'POST',
-                requestBody: "{
-                    \"channel\": \"${mattermostChannel}\",
-                    \"username\": \"${mattermostUsername}\",
-                    \"icon_url\": \"${mattermostIcon}\",
-                    \"text\": \"success ${env.JOB_NAME} ${env.BUILD_NUMBER} ${env.BUILD_URL}\"
+                requestBody: "{ \
+                    \"channel\": \"${mattermostChannel}\", \
+                    \"username\": \"${mattermostUsername}\", \
+                    \"icon_url\": \"${mattermostIcon}\", \
+                    \"text\": \"success ${env.JOB_NAME} ${env.BUILD_NUMBER} ${env.BUILD_URL}\" \
                 }",
                 responseHandle: 'NONE',
                 url: "${mattermostURL}",
@@ -78,11 +77,11 @@ node {
             echo 'failure............'
             httpRequest contentType: 'APPLICATION_JSON_UTF8',
                 httpMode: 'POST',
-                requestBody: "{
-                    \"channel\": \"${mattermostChannel}\",
-                    \"username\": \"${mattermostUsername}\",
-                    \"icon_url\": \"${mattermostIcon}\",
-                    \"text\": \"failure ${env.JOB_NAME} ${env.BUILD_NUMBER} ${env.BUILD_URL}\"
+                requestBody: "{ \
+                    \"channel\": \"${mattermostChannel}\", \
+                    \"username\": \"${mattermostUsername}\", \
+                    \"icon_url\": \"${mattermostIcon}\", \
+                    \"text\": \"failure ${env.JOB_NAME} ${env.BUILD_NUMBER} ${env.BUILD_URL}\" \
                 }",
                 responseHandle: 'NONE',
                 url: "${mattermostURL}",
