@@ -1,5 +1,5 @@
 node {
-//     try {
+    try {
         stage('Init') {
             // 설정 branch
             checkout scm
@@ -48,18 +48,8 @@ node {
             kubernetesDeploy configs: "${deployK8SYaml}",
                 kubeconfigId: 'k8s'
         }
-//     } catch (e) {
-//         currentBuild.result = 'FAILURE'
-//     } finally {
-//         stage('Clean workspace & delete Image') {
-//             cleanWs deleteDirs: true,
-//                 notFailBuild: true
-//             sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
-//         }
-//     }
-
-    post {
-        success {
+        
+        stage('Notificate') {
             echo 'success............'
             httpRequest contentType: 'APPLICATION_JSON_UTF8',
                 httpMode: 'POST',
@@ -73,8 +63,11 @@ node {
                 url: "${mattermostURL}",
                 wrapAsMultipart: false
         }
-        failure {
-            echo 'failure............'
+    } catch (e) {
+        currentBuild.result = 'FAILURE'
+        echo "$e"
+        echo 'failure............'
+        stage('Notificate') {
             httpRequest contentType: 'APPLICATION_JSON_UTF8',
                 httpMode: 'POST',
                 requestBody: "{ \
@@ -85,7 +78,21 @@ node {
                 }",
                 responseHandle: 'NONE',
                 url: "${mattermostURL}",
-                wrapAsMultipart: false        
+                wrapAsMultipart: false
+        }
+        throw
+    } finally {
+        stage('Clean workspace & delete Image') {
+            cleanWs deleteDirs: true,
+                notFailBuild: true
+            sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
+        }
+    }
+
+    post {
+        success {
+        }
+        failure {
         }
         cleanup {
             echo 'cleanup...........'
