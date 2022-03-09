@@ -5,21 +5,21 @@ node {
             checkout scm
         
             config = readYaml file: 'jenkins/deploy.yaml'
-            def deployK8SYaml = "${config.deploy.k8s.yaml}"
+            deployK8SYaml = "${config.deploy.k8s.yaml}"
             
-            def buildDockerfile = "${config.deploy.build.dockerfile}"
-            def buildPath = "${config.deploy.build.path}"
+            buildDockerfile = "${config.deploy.build.dockerfile}"
+            buildPath = "${config.deploy.build.path}"
             
-            def registryURL = "${config.registry.url}"
-            def registryProject = "${config.registry.project}"
-            def registryService = "${config.registry.service}"
+            registryURL = "${config.registry.url}"
+            registryProject = "${config.registry.project}"
+            registryService = "${config.registry.service}"
             
-            def mattermostURL = "${config.notification.mettermost.url}"
-            def mattermostChannel = "${config.notification.mettermost.channel}"
-            def mattermostUsername = "${config.notification.mettermost.usrname}"
-            def mattermostIcon = "${config.notification.mettermost.icon}"
+            mattermostURL = "${config.notification.mettermost.url}"
+            mattermostChannel = "${config.notification.mettermost.channel}"
+            mattermostUsername = "${config.notification.mettermost.usrname}"
+            mattermostIcon = "${config.notification.mettermost.icon}"
                 
-            def tag = sh (
+            tag = sh (
                 script: "echo `date '+%Y%m%d'`-`git rev-parse --short=7 HEAD`",
                 returnStdout: true
             ).trim()
