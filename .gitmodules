@@ -1,0 +1,3 @@
+[submodule "jenkins/Jenkinsfile"]
+	path = jenkins/Jenkinsfile
+	url = git@github.com:mobigen/JenkinsTest
