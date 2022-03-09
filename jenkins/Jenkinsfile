@@ -57,8 +57,7 @@ node {
     POST {
         success {
             echo 'success............'
-            httpRequest
-                contentType: 'APPLICATION_JSON_UTF8',
+            httpRequest contentType: 'APPLICATION_JSON_UTF8',
                 httpMode: 'POST',
                 requestBody: "{
                     \"channel\": \"${mattermostChannel}\",
@@ -72,8 +71,7 @@ node {
         }
         failure {
             echo 'failure............'
-            httpRequest
-                contentType: 'APPLICATION_JSON_UTF8',
+            httpRequest contentType: 'APPLICATION_JSON_UTF8',
                 httpMode: 'POST',
                 requestBody: "{
                     \"channel\": \"${mattermostChannel}\",
