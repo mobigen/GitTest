@@ -17,7 +17,7 @@ node {
             def mattermostURL = "${config.notification.mettermost.url}"
             def mattermostChannel = "${config.notification.mettermost.channel}"
             def mattermostUsername = "${config.notification.mettermost.usrname}"
-            def mattermostIcon = "${config.notification.mettermost.url.icon}"
+            def mattermostIcon = "${config.notification.mettermost.icon}"
                 
             def tag = sh (
                 script: "echo `date '+%Y%m%d'`-`git rev-parse --short=7 HEAD`",
