@@ -1,0 +1,95 @@
+node {
+    try {
+        stage('Init') {
+            // 설정 branch
+            checkout scm
+        
+            config = readYaml file: 'jenkins/deploy.yaml'
+            def deployK8SYaml = "${config.deploy.k8s.yaml}"
+            
+            def buildDockerfile = "${config.deploy.build.dockerfile}"
+            def buildPath = "${config.deploy.build.path}"
+            
+            def registryURL = "${config.registry.url}"
+            def registryProject = "${config.registry.project}"
+            def registryService = "${config.registry.service}"
+        
+            def tag = sh (
+                script: "echo `date '+%Y%m%d'`-`git rev-parse --short=7 HEAD`",
+                returnStdout: true
+            ).trim()
+        }
+    
+        stage('Docker build') {
+            echo "-tag name: $tag"
+        
+            docker_image = docker.build(
+                "${registryURL}/${registryProject}/${registryService}",
+                "-f ${buildDockerfile} ${buildPath}"
+            )
+            
+            docker.withRegistry("https://${registryURL}", 'harbor-jenkins') {
+                docker_image.push("${tag}")
+            }
+        }
+        
+        stage('Kubernetes deploy') {
+            env.DEPLOY_NAMESPACE = "${config.deploy.k8s.namespace}"
+            env.CONTAINER_IMAGE = "${registryURL}/${registryProject}/${registryService}:${tag}"
+        
+            echo "-deploy namespace: $env.DEPLOY_NAMESPACE"
+            echo "-container image : $env.CONTAINER_IMAGE"
+        
+            kubernetesDeploy configs: "${deployK8SYaml}",
+                kubeconfigId: 'k8s'
+        }
+    } catch (e) {
+        currentBuild.result = 'FAILURE'
+    } finally {
+        stage('Clean workspace & delete Image') {
+            cleanWs
+                deleteDirs: true,
+                notFailBuild: true
+            sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
+        }
+    }
+
+    POST {
+        success {
+            echo 'success............'
+            httpRequest
+                contentType: 'APPLICATION_JSON_UTF8',
+                httpMode: 'POST',
+                requestBody: "{
+                    \"channel\": \"${mattermostChannel}\",
+                    \"username\": \"${mattermostUsername}\",
+                    \"icon_url\": \"${mattermostIcon}\",
+                    \"text\": \"success ${env.JOB_NAME} ${env.BUILD_NUMBER} ${env.BUILD_URL}\"
+                }",
+                responseHandle: 'NONE',
+                url: "${mattermostURL}",
+                wrapAsMultipart: false
+        }
+        failure {
+            echo 'failure............'
+            httpRequest
+                contentType: 'APPLICATION_JSON_UTF8',
+                httpMode: 'POST',
+                requestBody: "{
+                    \"channel\": \"${mattermostChannel}\",
+                    \"username\": \"${mattermostUsername}\",
+                    \"icon_url\": \"${mattermostIcon}\",
+                    \"text\": \"failure ${env.JOB_NAME} ${env.BUILD_NUMBER} ${env.BUILD_URL}\"
+                }",
+                responseHandle: 'NONE',
+                url: "${mattermostURL}",
+                wrapAsMultipart: false        
+        }
+        cleanup {
+            echo 'cleanup...........'
+        }
+        always {
+            echo 'always............'
+        }
+    }
+}

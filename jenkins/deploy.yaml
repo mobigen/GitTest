@@ -1,0 +1,19 @@
+deploy:
+  build:
+    dockerfile: Dockerfile
+    path: ./
+  k8s:
+    namespace: test
+    yaml: jenkins/k8s-deploy.yaml
+
+registry:
+  url: repo.iris.tools
+  project: test
+  service: test
+
+notification:
+  mettermost:
+    url: https://messenger.mobigen.com/hooks/ibfct4huhpyrbrg3u4yhfgy7uo
+    channel: cicd
+    usrname: platform
+    icon: https://www.mattermost.org/wp-content/uploads/2016/04/icon.png
