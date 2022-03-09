@@ -88,17 +88,4 @@ node {
             sh "docker rmi ${registryURL}/${registryProject}/${registryService}"
         }
     }
-
-    post {
-        success {
-        }
-        failure {
-        }
-        cleanup {
-            echo 'cleanup...........'
-        }
-        always {
-            echo 'always............'
-        }
-    }
 }
