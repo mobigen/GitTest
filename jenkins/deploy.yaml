@@ -8,7 +8,7 @@ deploy:
 
 registry:
   url: repo.iris.tools
-  project: test
+  project: cicd
   service: test
 
 notification:
