@@ -63,9 +63,9 @@ node {
                 url: "${mattermostURL}",
                 wrapAsMultipart: false
         }
-    } catch (e) {
+    } catch (err) {
         currentBuild.result = 'FAILURE'
-        echo "$e"
+        echo "$err"
         echo 'failure............'
         stage('Notificate') {
             httpRequest contentType: 'APPLICATION_JSON_UTF8',
@@ -80,7 +80,7 @@ node {
                 url: "${mattermostURL}",
                 wrapAsMultipart: false
         }
-        throw
+        throw err
     } finally {
         stage('Clean workspace & delete Image') {
             cleanWs deleteDirs: true,
