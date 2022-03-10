@@ -1,3 +1,7 @@
+general:
+  jenkins:
+    path: jenkins
+
 deploy:
   build:
     dockerfile: Dockerfile
