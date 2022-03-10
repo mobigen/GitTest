@@ -1,6 +1,6 @@
-general:
+submodule:
   jenkins:
-    path: jenkins
+    path: jenkins/Jenkinsfile
 
 deploy:
   build:
